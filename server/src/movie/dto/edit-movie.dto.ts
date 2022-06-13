@@ -1,11 +1,7 @@
-import { IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class EditMovieDto {
-  @IsString()
-  @IsOptional()
-  name: string;
-
-  @IsString()
-  @IsOptional()
-  category: string;
+  @IsNumber()
+  @IsNotEmpty()
+  movieId: number;
 }

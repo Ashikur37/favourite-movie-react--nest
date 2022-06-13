@@ -38,7 +38,7 @@ export class AuthService {
         lastName: true,
       },
     });
-    return user;
+    return createduser;
   }
 
   async signin(dto: SignInDto) {

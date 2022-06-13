@@ -25,15 +25,29 @@ model User {
   @@map("users")
 }
 
+model Movie {
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  title           String
+  year            Int
+  rating          Float
+  category        String
+  posterUrl       String
+  favouriteMovies FavouriteMovie[]
+
+  @@map("movies")
+}
+
 model FavouriteMovie {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name     String
-  category String
-  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
 
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  movieId Int
   @@map("favourite_movies")
 }
