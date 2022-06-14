@@ -1,4 +1,5 @@
-import { AccessTime } from "@mui/icons-material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import {
   createTheme,
   Grid,
@@ -30,10 +31,36 @@ type Props = {
 };
 export default function MovieCard({ movie }: Props) {
   return (
-    <Grid item xs={4} md={3}>
+    <Grid item xs={6} md={3}>
       <ThemeProvider theme={theme}>
         <Paper elevation={3} className="paper">
-          <img src={movie.posterUrl} alt="" className="img" />
+          {/* <img
+            style={{
+              width: "100%",
+              height: "350px",
+            }}
+            src={movie.posterUrl}
+            alt=""
+            className="img"
+          /> */}
+          <Box
+            sx={{
+              height: "350px",
+              backgroundImage: `url(${movie.posterUrl})`,
+            }}
+          >
+            {/* Material heart icon */}
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                fontSize: "2rem",
+                zIndex: 1,
+              }}
+            >
+              <FavoriteIcon />
+            </Box>
+          </Box>
           <Box
             sx={{
               paddingX: 1,
@@ -48,7 +75,7 @@ export default function MovieCard({ movie }: Props) {
                 alignItems: "center",
               }}
             >
-              <AccessTime style={{ width: 12.5 }} />
+              <FavoriteIcon />
               <Typography variant="body2" component="p" marginLeft={0.5}>
                 Released In {movie.year}
               </Typography>
