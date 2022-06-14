@@ -9,11 +9,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
+import { MovieQueryDto } from 'src/auth/dto';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
-import { CreateMovieDto, EditMovieDto } from './dto';
+import { FavouriteMovieDto, EditMovieDto } from './dto';
 import { MovieService } from './movie.service';
 
 @UseGuards(JwtGuard)
@@ -21,13 +23,17 @@ import { MovieService } from './movie.service';
 export class MovieController {
   constructor(private movieService: MovieService) {}
   @Get()
-  getMovies(@GetUser('id') userId: number) {
-    return this.movieService.getMovies(userId);
+  getMovies(@GetUser('id') userId: number, @Query() query: MovieQueryDto) {
+    console.log(query);
+    return this.movieService.getMovies(userId, query);
   }
 
-  @Post()
-  createMovie(@GetUser('id') userId: number, @Body() dto: CreateMovieDto) {
-    return this.movieService.createMovie(userId, dto);
+  @Post('favourite')
+  favouriteMovie(
+    @GetUser('id') userId: number,
+    @Body() dto: FavouriteMovieDto,
+  ) {
+    return this.movieService.favouriteMovie(userId, dto);
   }
 
   @Get(':id')

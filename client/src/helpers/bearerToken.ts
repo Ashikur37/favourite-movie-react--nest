@@ -1,4 +1,4 @@
-const token = {
+const bearerToken = {
   set(token: string) {
     localStorage.setItem("token", token);
   },
@@ -10,4 +10,4 @@ const token = {
   },
 };
 
-export default token;
+export default bearerToken;

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-
+import bearerToken from "../helpers/bearerToken";
 import { signup, signin, geCurrenttUser } from "../services/userService";
 import { signinData, signupData } from "../types";
 const initialState = {
@@ -108,6 +108,26 @@ const authSlice = createSlice({
         loginError: "",
       };
     },
+    forceLogout(state, action) {
+      localStorage.removeItem("token");
+
+      return {
+        ...state,
+        token: "",
+        name: "",
+        email: "",
+        _id: "",
+        registerStatus: "",
+        registerError: "",
+        loginStatus: "",
+        loginError: "",
+        alert: {
+          type: "error",
+          message: "Please login to continue",
+          show: true,
+        },
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(registerUser.pending, (state, action) => {
@@ -156,9 +176,10 @@ const authSlice = createSlice({
       (state, action: PayloadAction<any>) => {
         if (action.payload) {
           const user = action.payload;
+          bearerToken.set(user.access_token);
           return {
             ...state,
-            token: action.payload,
+            token: action.payload.access_token,
             //   name: user.name,
             //   email: user.email,
             //   _id: user._id,
@@ -214,6 +235,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { loadUser, logoutUser, removeAlert } = authSlice.actions;
+export const { loadUser, logoutUser, forceLogout, removeAlert } =
+  authSlice.actions;
 
 export default authSlice.reducer;

@@ -34,6 +34,7 @@ export default function SignUp() {
   const auth = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
+    console.log(auth);
     setLoading(false);
     if (auth.registerStatus == "success") {
       navigate("/signin");
