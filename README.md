@@ -5,7 +5,7 @@
         Nest JS
     </li>
     <li>
-        Type Script
+        TypeScript
     </li>
     <li>
         PostgreSQL
@@ -29,7 +29,7 @@
        React JS
     </li>
     <li>
-        Type Script
+        TypeScript
     </li>
     <li>
        Redux Toolkit
