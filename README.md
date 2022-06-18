@@ -43,6 +43,14 @@
 </ul>
 
 <h3>
+    Migrate and seed database
+    </h3>
+    <pre>
+    yarn prisma db push
+    yarn prisma db seed
+    </pre>
+
+<h3>
     Run backend server in dev mode
 </h3>
 <pre>
