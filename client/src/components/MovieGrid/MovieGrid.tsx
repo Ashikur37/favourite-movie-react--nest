@@ -13,24 +13,19 @@ const MovieGrid = () => {
   const { movies, count, pageLength, page, loading } = movieState;
   const dispatch = useAppDispatch();
   return (
-    <Grid item xs={false} sm={6} md={9}>
+    <Grid item xs={12} sm={7} md={8} lg={9}>
       <SearchInput />
-      {loading ? (
-        <Loader />
-      ) : (
-        <Grid
-          container
-          component="main"
-          spacing={1.5}
-          sx={{
-            paddingRight: "20px",
-          }}
-        >
-          {movies.map((movie: movieData) => (
-            <MovieCard movie={movie} key={movie.id} />
-          ))}
-        </Grid>
-      )}
+      {loading ? <Loader /> : <> </>}
+      <Grid
+        container
+        component="main"
+        spacing={1.5}
+        className={styles.movieGrid}
+      >
+        {movies.map((movie: movieData) => (
+          <MovieCard movie={movie} key={movie.id} />
+        ))}
+      </Grid>
 
       <Stack spacing={2}>
         <Box className={styles.pagination}>

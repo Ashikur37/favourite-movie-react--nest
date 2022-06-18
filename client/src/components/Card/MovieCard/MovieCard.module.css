@@ -12,3 +12,23 @@
   position: relative;
   background-size: cover;
 }
+.boxContent {
+  position: absolute;
+  top: 4%;
+  left: 4%;
+  font-size: 2rem;
+  z-index: 1;
+  background-color: #e2c6c630;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.boxContent:hover {
+  background-color: #e2c6c6;
+  cursor: pointer;
+  font-size: 2.375rem;
+}
+.favoriteIcon {
+  margin-top: 4px;
+  margin-left: 3px;
+}

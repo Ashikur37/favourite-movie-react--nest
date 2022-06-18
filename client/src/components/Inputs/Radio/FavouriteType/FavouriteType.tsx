@@ -9,20 +9,16 @@ import {
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../app/hooks";
 import { setPage, setFavourite } from "../../../../slices/movieSlice";
-import styles from "./FavouriteType.module.scss";
+import styles from "./FavouriteType.module.css";
 
 const FavouriteType = () => {
   const movieState = useSelector((state: any) => state.movies);
   const { favourite } = movieState;
   const dispatch = useAppDispatch();
   return (
-    <Paper
-      sx={{
-        marginTop: "1rem",
-      }}
-    >
+    <Paper className={styles.paper}>
       <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">Type</FormLabel>
+        <FormLabel id="demo-radio-buttons-group-label">Show</FormLabel>
         <RadioGroup
           onChange={(e) => {
             dispatch(setPage(1));

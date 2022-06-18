@@ -29,7 +29,7 @@ export default function MovieCard({ movie }: Props) {
     });
   };
   return (
-    <Grid item xs={6} md={3}>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
       <Paper elevation={3} className={styles.card}>
         <Box
           className={styles.box}
@@ -37,16 +37,9 @@ export default function MovieCard({ movie }: Props) {
             backgroundImage: `url(${movie.posterUrl}),url(https://assignments.ds106.us/wp-content/uploads/sites/4/2017/09/movie_test_00-350x283.jpg)`,
           }}
         >
-          <Box
-            sx={{
-              position: "absolute",
-              top: "4%",
-              left: "4%",
-              fontSize: "2rem",
-              zIndex: 1,
-            }}
-          >
+          <Box className={styles.boxContent}>
             <FavoriteIcon
+              className={styles.favoriteIcon}
               onClick={handleFavorite}
               fontSize="large"
               sx={{
@@ -84,7 +77,22 @@ export default function MovieCard({ movie }: Props) {
               display: "flex",
               alignItems: "center",
             }}
-            marginTop={3}
+          >
+            <Typography
+              variant="subtitle2"
+              component="p"
+              sx={{ fontWeight: "bold" }}
+            >
+              {movie.category}
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+            marginTop={1}
           >
             <Rating
               name="size-small"
@@ -94,12 +102,10 @@ export default function MovieCard({ movie }: Props) {
               readOnly
             />
             <Typography variant="body2" component="p">
-              {movie.rating}
-            </Typography>
-            <Typography variant="body2" component="p">
-              {movie.category}
+              ({movie.rating})
             </Typography>
           </Box>
+
           {/* <Box
             sx={{
               display: "flex",

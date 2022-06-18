@@ -6,3 +6,9 @@
   justify-content: center;
   margin-top: 1rem;
 }
+
+@media (min-width: 576px) {
+  .movieGrid {
+    padding-right: 1rem;
+  }
+}
