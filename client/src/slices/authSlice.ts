@@ -82,7 +82,6 @@ const authSlice = createSlice({
       } else return { ...state, userLoaded: true };
     },
     removeAlert(state, action) {
-      console.log("called");
       return {
         ...state,
         registerStatus: "",
@@ -90,6 +89,17 @@ const authSlice = createSlice({
           type: "success",
           message: "",
           show: false,
+        },
+      };
+    },
+    createAlert(state, action) {
+      return {
+        ...state,
+        registerStatus: "",
+        alert: {
+          type: action.payload.type,
+          message: action.payload.message,
+          show: true,
         },
       };
     },
@@ -117,6 +127,7 @@ const authSlice = createSlice({
         name: "",
         email: "",
         _id: "",
+        isLoggedIn: false,
         registerStatus: "",
         registerError: "",
         loginStatus: "",
@@ -154,8 +165,6 @@ const authSlice = createSlice({
     builder.addCase(
       registerUser.rejected,
       (state, action: PayloadAction<any>) => {
-        console.log("rejected");
-        console.log(action.payload);
         return {
           ...state,
           registerStatus: "rejected",
@@ -175,14 +184,12 @@ const authSlice = createSlice({
       loginUser.fulfilled,
       (state, action: PayloadAction<any>) => {
         if (action.payload) {
-          const user = action.payload;
-          bearerToken.set(user.access_token);
+          const data = action.payload;
+          bearerToken.set(data.access_token);
           return {
             ...state,
-            token: action.payload.access_token,
-            //   name: user.name,
-            //   email: user.email,
-            //   _id: user._id,
+            token: data.access_token,
+            user: data.user,
             isLoggedIn: true,
             loginStatus: "success",
             alert: {
@@ -235,7 +242,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { loadUser, logoutUser, forceLogout, removeAlert } =
+export const { loadUser, logoutUser, forceLogout, removeAlert, createAlert } =
   authSlice.actions;
 
 export default authSlice.reducer;

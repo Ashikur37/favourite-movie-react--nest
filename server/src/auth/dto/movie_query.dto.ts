@@ -18,4 +18,7 @@ export class MovieQueryDto {
   @IsOptional()
   @IsString()
   search: string;
+  @IsOptional()
+  @IsString()
+  favourite: string;
 }

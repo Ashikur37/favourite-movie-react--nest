@@ -1,4 +1,5 @@
 import { Alert, AlertColor, Snackbar } from "@mui/material";
+import styles from "./SnackBar.module.scss";
 
 type Props = {
   open: boolean;

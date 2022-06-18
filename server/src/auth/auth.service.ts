@@ -55,7 +55,11 @@ export class AuthService {
       throw new ForbiddenException('Invalid password');
     }
     delete user.password;
-    return this.signToken(user.id, user.email);
+    const token = await this.signToken(user.id, user.email);
+    return {
+      ...token,
+      user,
+    };
   }
 
   async signToken(

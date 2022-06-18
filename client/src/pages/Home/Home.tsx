@@ -1,47 +1,34 @@
-import { useEffect, useState } from "react";
-import { getMovie } from "../../services/movieService";
-import { forceLogout } from "../../slices/authSlice";
+import { useEffect } from "react";
+import { fetchMovies } from "../../slices/movieSlice";
+import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
-import { Grid, Paper, TextField, Typography } from "@mui/material";
-import { movieData } from "../../types";
-import MovieCard from "../../components/Card/MovieCard/MovieCard";
+import { Grid } from "@mui/material";
+import styles from "./Home.module.css";
+
+import MovieGrid from "../../components/MovieGrid/MovieGrid";
+import SideBar from "../../components/SideBar/SideBar";
 type Props = {};
 
 export default function Home({}: Props) {
-  const dispatch = useAppDispatch();
+  const authState = useSelector((state: any) => state.auth);
+  console.log(authState);
+  const movieState = useSelector((state: any) => state.movies);
+  const { search, movies, favourite, count, pageLength, page, sortBy } =
+    movieState;
+  const { isLoggedIn } = authState;
   const navigate = useNavigate();
-  const [movies, setMovies] = useState<movieData[]>([]);
-  const [search, setSearch] = useState("");
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    getMovie(search)
-      .then((res: any) => {
-        setMovies(res.data.movies);
-      })
-      .catch((err: any) => {
-        if (err.response.status == 401) {
-          dispatch(forceLogout(null));
-          navigate("/signin");
-        }
-      });
-  }, [search]);
+    dispatch(fetchMovies());
+    if (!isLoggedIn) {
+      navigate("/signin");
+    }
+  }, [search, sortBy, favourite, page, pageLength, isLoggedIn]);
   return (
-    <Grid container component="main">
-      <Grid item xs={false} sm={4} md={3}>
-        <Paper>
-          <Typography variant="h5" component="h3">
-            Home
-          </Typography>
-        </Paper>
-      </Grid>
-      <Grid item xs={false} sm={6} md={9}>
-        <TextField fullWidth onChange={(e) => setSearch(e.target.value)} />
-        <Grid container component="main" spacing={1}>
-          {movies.map((movie: movieData) => (
-            <MovieCard movie={movie} key={movie.id} />
-          ))}
-        </Grid>
-      </Grid>
+    <Grid container component="main" className={styles.container}>
+      <SideBar />
+      <MovieGrid />
     </Grid>
   );
 }

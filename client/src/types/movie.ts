@@ -1,7 +1,7 @@
 export interface movieData {
   id: number;
   category: string;
-  favorite: boolean;
+  favourite: boolean;
   year: number;
   rating: number;
   title: string;

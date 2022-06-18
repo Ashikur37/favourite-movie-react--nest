@@ -1,118 +1,116 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import {
-  createTheme,
-  Grid,
-  Paper,
-  Rating,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { favourite } from "../../../services/movieService";
+import { Grid, Paper, Rating, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { useState } from "react";
 import { movieData } from "../../../types";
-const theme = createTheme({
-  components: {
-    MuiTypography: {
-      variants: [
-        {
-          props: {
-            variant: "body2",
-          },
-          style: {
-            fontSize: 11,
-          },
-        },
-      ],
-    },
-  },
-});
+import { createAlert } from "../../../slices/authSlice";
+import { fetchMovies } from "../../../slices/movieSlice";
+
+import { useAppDispatch } from "../../../app/hooks";
+import styles from "./MovieCard.module.css";
+
 type Props = {
   movie: movieData;
 };
 export default function MovieCard({ movie }: Props) {
+  const [isFavorite, setIsFavorite] = useState(movie.favourite);
+  const dispatch = useAppDispatch();
+  const handleFavorite = () => {
+    favourite(movie.id).then((res: any) => {
+      dispatch(fetchMovies());
+      setIsFavorite(res.data.favourite);
+      dispatch(
+        createAlert({
+          type: "success",
+          message: res.data.msg,
+        })
+      );
+    });
+  };
   return (
     <Grid item xs={6} md={3}>
-      <ThemeProvider theme={theme}>
-        <Paper elevation={3} className="paper">
-          {/* <img
-            style={{
-              width: "100%",
-              height: "350px",
-            }}
-            src={movie.posterUrl}
-            alt=""
-            className="img"
-          /> */}
+      <Paper elevation={3} className={styles.card}>
+        <Box
+          className={styles.box}
+          sx={{
+            backgroundImage: `url(${movie.posterUrl}),url(https://assignments.ds106.us/wp-content/uploads/sites/4/2017/09/movie_test_00-350x283.jpg)`,
+          }}
+        >
           <Box
             sx={{
-              height: "350px",
-              backgroundImage: `url(${movie.posterUrl})`,
+              position: "absolute",
+              top: "4%",
+              left: "4%",
+              fontSize: "2rem",
+              zIndex: 1,
             }}
           >
-            {/* Material heart icon */}
-            <Box
+            <FavoriteIcon
+              onClick={handleFavorite}
+              fontSize="large"
               sx={{
-                position: "absolute",
-                top: "50%",
-                fontSize: "2rem",
-                zIndex: 1,
+                color: isFavorite ? "red" : "white",
               }}
-            >
-              <FavoriteIcon />
-            </Box>
+            />
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            paddingX: 1,
+          }}
+        >
+          <Typography
+            variant="subtitle1"
+            component="h2"
+            sx={{
+              marginTop: "3px",
+            }}
+          >
+            {movie.title}
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="body2" component="p">
+              Released In {movie.year}
+            </Typography>
           </Box>
           <Box
             sx={{
-              paddingX: 1,
+              display: "flex",
+              alignItems: "center",
+            }}
+            marginTop={3}
+          >
+            <Rating
+              name="size-small"
+              size="small"
+              defaultValue={movie.rating}
+              precision={0.25}
+              readOnly
+            />
+            <Typography variant="body2" component="p">
+              {movie.rating}
+            </Typography>
+            <Typography variant="body2" component="p">
+              {movie.category}
+            </Typography>
+          </Box>
+          {/* <Box
+            sx={{
+              display: "flex",
             }}
           >
-            <Typography variant="subtitle1" component="h2">
+            <Typography variant="h6" component="h2" marginTop={0}>
               {movie.title}
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <FavoriteIcon />
-              <Typography variant="body2" component="p" marginLeft={0.5}>
-                Released In {movie.year}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              marginTop={3}
-            >
-              <Rating
-                name="size-small"
-                size="small"
-                defaultValue={movie.rating}
-                precision={0.25}
-                readOnly
-              />
-              <Typography variant="body2" component="p" marginLeft={0.5}>
-                {movie.rating}
-              </Typography>
-              <Typography variant="body2" component="p" marginLeft={1.5}>
-                {movie.category}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-              }}
-            >
-              <Typography variant="h6" component="h2" marginTop={0}>
-                {movie.title}
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
-      </ThemeProvider>
+          </Box> */}
+        </Box>
+      </Paper>
     </Grid>
   );
 }

@@ -1,5 +1,4 @@
 import * as React from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { signinData } from "../../types";
 import {
   Link as URL,
@@ -21,6 +20,9 @@ import SnackBar from "../../components/SnackBar/SnackBar";
 import { useAppDispatch } from "../../app/hooks";
 import { loginUser } from "../../slices/authSlice";
 import { useSelector } from "react-redux";
+import { AccountCircle } from "@mui/icons-material";
+import styles from "./Signin.module.css";
+
 export default function SignIn() {
   const [signinData, setSigninData] = React.useState<signinData>({
     email: "",
@@ -82,7 +84,7 @@ export default function SignIn() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+            <AccountCircle />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in

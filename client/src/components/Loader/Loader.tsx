@@ -1,4 +1,5 @@
 import { Box, CircularProgress } from "@mui/material";
+import styles from "./Loader.module.scss";
 
 type Props = {};
 

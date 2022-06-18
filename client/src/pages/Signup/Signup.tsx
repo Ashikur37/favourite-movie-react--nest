@@ -22,6 +22,8 @@ import TextInput from "../../components/Inputs/TextInput/TextInput";
 import { useSelector } from "react-redux";
 import { registerUser } from "../../slices/authSlice";
 import { useAppDispatch } from "../../app/hooks";
+import styles from "./Signup.module.css";
+
 export default function SignUp() {
   const [signupData, setSignupData] = React.useState<signupData>({
     email: "",
@@ -34,7 +36,6 @@ export default function SignUp() {
   const auth = useSelector((state: any) => state.auth);
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    console.log(auth);
     setLoading(false);
     if (auth.registerStatus == "success") {
       navigate("/signin");
@@ -42,7 +43,6 @@ export default function SignUp() {
   }, [auth, navigate]);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     setLoading(true);
     dispatch(registerUser(signupData));
   };
@@ -70,7 +70,6 @@ export default function SignUp() {
             t.palette.mode === "light"
               ? t.palette.grey[50]
               : t.palette.grey[900],
-          // backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       />

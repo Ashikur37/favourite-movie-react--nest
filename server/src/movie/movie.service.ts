@@ -11,22 +11,66 @@ export class MovieService {
     const page = +query.page || 1;
     const sortBy = query.sortBy || 'title';
     const type = query.type || 'asc';
-    const totalResult = await this.prisma.movie.count({
+    const favouriteMovieIds = await this.prisma.favouriteMovie.findMany({
       where: {
-        title: {
-          contains: query.search || '',
-          mode: 'insensitive',
-        },
+        userId,
       },
+      select: {
+        movieId: true,
+      },
+    });
+    const favouriteMovieIdsArray = favouriteMovieIds.map(
+      (movie) => movie.movieId,
+    );
+
+    const totalResult = await this.prisma.movie.count({
+      where:
+        query.favourite != 'all'
+          ? {
+              title: {
+                contains: query.search || '',
+                mode: 'insensitive',
+              },
+              id:
+                query.favourite == 'true'
+                  ? {
+                      in: favouriteMovieIdsArray,
+                    }
+                  : {
+                      notIn: favouriteMovieIdsArray,
+                    },
+            }
+          : {
+              title: {
+                contains: query.search || '',
+                mode: 'insensitive',
+              },
+            },
     });
 
     const movies = await this.prisma.movie.findMany({
-      where: {
-        title: {
-          contains: query.search || '',
-          mode: 'insensitive',
-        },
-      },
+      where:
+        query.favourite != 'all'
+          ? {
+              title: {
+                contains: query.search || '',
+                mode: 'insensitive',
+              },
+              id:
+                query.favourite == 'true'
+                  ? {
+                      in: favouriteMovieIdsArray,
+                    }
+                  : {
+                      notIn: favouriteMovieIdsArray,
+                    },
+            }
+          : {
+              title: {
+                contains: query.search || '',
+                mode: 'insensitive',
+              },
+            },
       include: {
         favouriteMovies: {
           where: {
@@ -66,6 +110,7 @@ export class MovieService {
         },
       });
       return {
+        favourite: false,
         msg: 'Movie removed from favourites',
       };
     } else {
@@ -76,6 +121,7 @@ export class MovieService {
         },
       });
       return {
+        favourite: true,
         msg: 'Movie added to favourites',
       };
     }

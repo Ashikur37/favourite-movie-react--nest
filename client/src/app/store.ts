@@ -5,8 +5,10 @@ import {
   combineReducers,
   getDefaultMiddleware,
 } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
+
 import authReducer from "../slices/authSlice";
+import movieReducer from "../slices/movieSlice";
+
 import storage from "redux-persist/lib/storage";
 import {
   persistReducer,
@@ -23,8 +25,8 @@ const persistConfig = {
   storage,
 };
 const rootReducer = combineReducers({
-  counter: counterReducer,
   auth: authReducer,
+  movies: movieReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

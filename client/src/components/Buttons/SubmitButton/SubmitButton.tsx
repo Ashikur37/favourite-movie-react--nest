@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import styles from "./SubmitButton.module.css";
 
 type Props = {
   label: string;
@@ -6,7 +7,7 @@ type Props = {
 
 export default function SubmitButton({ label }: Props) {
   return (
-    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+    <Button type="submit" fullWidth variant="contained" className={styles.btn}>
       {label}
     </Button>
   );
