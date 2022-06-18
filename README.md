@@ -46,7 +46,7 @@
     Run backend server in dev mode
 </h3>
 <pre>
-    Run database in dev mode:
+    Run dev database :
     docker compose up dev-db -d
     Run backend server in dev mode:
     yarn start:dev
